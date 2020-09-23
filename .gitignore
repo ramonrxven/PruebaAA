@@ -5,3 +5,8 @@ obj/
 client_id
 .devcontainer/
 .devcontainer/**
+Stock.CSV
+*.CSV
+*.csv
+Data/
+Data/**

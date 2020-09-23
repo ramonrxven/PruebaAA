@@ -60,17 +60,33 @@ namespace PruebaAA.Services.Impl
 
 
     /// <summary>
-    /// Abre el archivo y devuelve un stream para la lectura del recurso.
+    /// abre el archivo CSV dependiendo de la configuración establecida.
+    /// 
+    /// el archivo puede ser abierto desde una ubicación local o una Remota.
+    /// dependiendo del setting establecido para [IsRemoteSource](true/false) en appsetting.json
+    /// </summary>
+    /// <returns>instancia de StreamReder para acceder linea a linea</returns>
+    private StreamReader OpenFile()
+    {
+      if (_config.IsRemoteSource)
+      {
+        return OpenRemoteFile();
+      }else{
+        return OpenLocalFile();
+      }
+    }
+
+
+    /// <summary>
+    /// Abre el archivo y devuelve un HttpBaseStream para la lectura del Archivo directo desde su ubicación remota.
     ///
     ///
     /// al no poder mover el apuntador del archivo con los metodos Seek o Position, por ser un
     /// archivo HttpBaseStream, la estrategia para poder recorrer el archivo desde el comienzo
     /// es cerrarlo y abrirlo nuevamente.
     /// </summary>
-    private StreamReader OpenFile()
+    private StreamReader OpenRemoteFile()
     {
-      // _config.RemoteSource
-      // textFile = "../Stock.CSV";
       Console.WriteLine($"El Archivo en proceso: {_config.RemoteSource}");
       var webRequest = GetFile();
       if ( webRequest != null ){
@@ -81,7 +97,26 @@ namespace PruebaAA.Services.Impl
       }else{
         return null;
       }
+    }
 
+
+    /// <summary>
+    /// Abre el archivo de forma local y devuelve un stream para la lectura del archivo CSV.
+    /// 
+    /// </summary>
+    private StreamReader OpenLocalFile()
+    {
+      try
+      {
+        Console.WriteLine($"El Archivo en proceso: {_config.LocalSource}");
+          file = new StreamReader(_config.LocalSource);
+          return  file;
+      }
+      catch (System.Exception)
+      {
+        Console.WriteLine($"ERROR: Ocurrrió un Error al tratar de abrir el Archivo: {_config.LocalSource}");
+          return null;
+      }
     }
 
 
@@ -146,23 +181,6 @@ namespace PruebaAA.Services.Impl
     }
 
 
-    // private  void RunFile()
-    // {
-    //   DateTime dateIni =  DateTime.Now;
-    //   Stopwatch sw = new Stopwatch(); // Creación del Stopwatch.
-    //   sw.Start(); // Iniciar la medición.
-    //   // OpenFile();
-    //   foreach (var item in LineRunner(2000)){
-
-    //   }
-    //   // file.Close();
-    //   Console.WriteLine($"Hora de Inicio: {dateIni.ToString("dddd, dd MMMM yyyy ")}");
-    //   Console.WriteLine($"Hora de Culminación: {DateTime.Now.ToString("dddd, dd MMMM yyyy")}");
-    //   sw.Stop(); // Detener la medición.
-    //   Console.WriteLine("Tiempo Transcurrido: {0}", sw.Elapsed.ToString("hh\\:mm\\:ss\\.fff")); // Mostrar el tiempo transcurriodo con un formato hh:mm:ss.000
-    // }
-
-
     /// <summary>
     /// recorre todo el archivo abierto línea por línea de forma iterativa.
     ///
@@ -200,17 +218,5 @@ namespace PruebaAA.Services.Impl
       return ln.Split(_config.FieldSeparator);
     }
 
-    /// <summary>
-    /// Procesa el recurso registro a registro y lo almacena en la tabla designada
-    /// </summary>
-    // public void ProcessFile()
-    // {
-    //     Console.WriteLine("Comienza el proceso de registro del archivo...");
-    //     if ( ValidateFile() ){
-    //       Console.WriteLine("Archivo Verificado");
-    //         // _import.ImportFile();
-    //         RunFile();
-    //     }
-    // }
   }
 }
