@@ -5,17 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PruebaAA.Repository.Impl
 {
-   /// <summary>
-   /// 
-   /// </summary>
+    /// <summary>
+    /// Clase que contiene el metodo que comprueba 
+    /// si existe la tabla y el Stored Procedure requeridos para cargar el archivo CSV.
+    /// </summary>
    public class CreateTable: ICreateTable
    {
 
       private readonly PruebaAAContext _db;
+      
+      /// <summary>
+      /// constructor de la clase.
+      /// 
+      /// se inyecta una instancia del contexto de datos.
+      /// </summary>
+      /// <param name="db"></param>
       public CreateTable(PruebaAAContext db)
       {
          _db = db;
       }
+
+
+      /// <summary>
+      /// comprueba que existan los objetos necesarios en la base datos.
+      /// 
+      /// comprueba que exista la tabla y el stored procedure en la base de datos
+      /// si no existe las crea.
+      /// </summary>
       public void PrepareDatabase()
       {
          string sqlCommand = @"IF NOT (EXISTS (
