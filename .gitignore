@@ -1,0 +1,7 @@
+bin/
+obj/
+*.csv
+*.CSV
+client_id
+.devcontainer/
+.devcontainer/**
