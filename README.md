@@ -1,16 +1,16 @@
 PruebaAA
 -----
-##Aplicación de consola .NET Core en C#
+## Aplicación de consola .NET Core en C#
 
 Esta aplicación lee un fichero .CSV almacenado en una cuenta de almacenamiento de Azure/o ubicación local e inserta su contenido en una BD SQL Server.
 
 La aplicación está desarrollada en .NetCore 3.1 y probada con MsSql Server 2017 como motor de base de datos.
 
-####Preparar la Base de datos.
+#### Preparar la Base de datos.
 Previo a ejecutar la aplicación por favor actualice los parametros conexión a su base de datos en _ConnectionString_ que se encuenta en el archivo __appsettings.json__. por defecto la aplicación tiene una base de datos configurada (PruebaAA), pero puedes configurar la que necesite.
 
 
-####Configuración de la aplicación.
+#### Configuración de la aplicación.
 En el archivo appsettings.json se encuentan todos los parametros de configuración de la
 aplicación.
 
@@ -69,7 +69,7 @@ FileColumns de contener tantos elementos como campos se vayan a impactar de la t
 ```
 
 
-####Ejecutar la Aplicación
+###### Ejecutar la Aplicación
 ```
 C:\> dotnet restore
 ```
@@ -77,7 +77,7 @@ C:\> dotnet restore
 C:\> dotnet run
 ```
 
-###Sobre la aplicación.
+###### Sobre la aplicación.
 La aplicación esta programada para leer un archivo CSV, desde un origen remoto o local
 y construir una batch de registros que puedan ser insertados en una tabla especificada en el código.
 
@@ -92,7 +92,7 @@ verificado todo esto, la aplicación abre el archivo y recorre linea por linea e
 
 los registros leídos ,transformados en registros volatiles y agrupados en lotes de 20 mil, para ser procesados por un stored procedure que los carga en modo batch y a la véz verifica que no existan registros duplicados en el lote que se carga.
 
-###Estrategia de carga de datos
+###### Estrategia de carga de datos
 **Lectura secuencial del archivo CSV**
 la lectura secuencial permite manejar los archivos de texto de gran tamaño sin riesgo de
 hacer colapsar los recursos de memoria dado el gran tamaño del archivo, por otra parte nos facilita controlar el tamaño del batch de ser necesario e incorporar mesajes en la consola para mostrar avance del proceso.
