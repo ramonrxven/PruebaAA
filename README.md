@@ -1,4 +1,4 @@
-#PruebaAA
+PruebaAA
 -----
 ##Aplicación de consola .NET Core en C#
 
